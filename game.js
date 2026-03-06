@@ -123,18 +123,33 @@ const ghosts = [
     { x: 14 * config.tileSize, y: 11 * config.tileSize, color: '#00ffff', direction: { x: 0, y: 1 } }
 ];
 
-// Contenido educativo por nivel (5 niveles para 5 jugadores)
+// Contenido educativo por nivel (5 niveles para 5 jugadores) - MEJORADO Y EXPANDIBLE
 const educationalContent = {
     3: {
         title: 'NIVEL 1: ¿Cómo ayudan las interfaces?',
         presenter: '🎮 Jugador: Valentina',
         content: `
-            <ul>
-                <li>Las interfaces permiten que los jugadores comprendan el funcionamiento del juego fácilmente</li>
-                <li>Facilitan la navegación dentro del sistema</li>
-                <li>Permiten tomar decisiones rápidas</li>
-                <li>Mejoran la interacción entre el usuario y el juego</li>
-                <li>Aumentan la inmersión del jugador</li>
+            <ul class="interactive-list">
+                <li data-detail="Las interfaces actúan como puente entre el jugador y el sistema, traduciendo acciones complejas en interacciones simples e intuitivas. Permiten que cualquier persona, sin importar su experiencia técnica, pueda disfrutar del juego desde el primer momento.">
+                    <span class="main-point">💡 Comprensión fácil del juego</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="Una buena interfaz organiza la información de manera lógica, usando menús claros, iconos reconocibles y flujos de navegación predecibles. Esto reduce la curva de aprendizaje y permite a los jugadores encontrar lo que necesitan rápidamente.">
+                    <span class="main-point">🧭 Navegación intuitiva</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="En momentos críticos del juego, la interfaz debe presentar información vital de forma instantánea: vida restante, munición, objetivos. Un diseño eficiente permite tomar decisiones estratégicas en fracciones de segundo sin distraer del gameplay.">
+                    <span class="main-point">⚡ Decisiones rápidas</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="La interfaz debe ser una extensión natural del juego, no un obstáculo. Elementos bien diseñados responden inmediatamente a las acciones del jugador, proporcionando feedback visual y auditivo que hace que cada interacción se sienta satisfactoria y precisa.">
+                    <span class="main-point">🎯 Mejor interacción</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="Una interfaz inmersiva se integra perfectamente con el mundo del juego, usando estilos visuales coherentes y elementos diegéticos cuando es posible. Esto mantiene al jugador dentro de la experiencia sin romper la ilusión del mundo virtual.">
+                    <span class="main-point">🌟 Mayor inmersión</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
             </ul>
         `
     },
@@ -142,11 +157,23 @@ const educationalContent = {
         title: 'NIVEL 2: Ventajas para Usuarios',
         presenter: '🎮 Jugador: Fernando',
         content: `
-            <ul>
-                <li>Facilidad de uso</li>
-                <li>Acceso rápido a información importante</li>
-                <li>Mejor comprensión de las mecánicas del juego</li>
-                <li>Experiencia más agradable para el jugador</li>
+            <ul class="interactive-list">
+                <li data-detail="La facilidad de uso se logra mediante patrones de diseño familiares, controles consistentes y retroalimentación clara. Los jugadores no deberían necesitar un manual para entender cómo interactuar con el juego - todo debe ser autoexplicativo.">
+                    <span class="main-point">✨ Facilidad de uso</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="El HUD (Heads-Up Display) debe mostrar solo la información esencial en el momento adecuado. Elementos como salud, minimapa y objetivos deben estar siempre visibles pero sin saturar la pantalla, permitiendo acceso rápido sin distracciones.">
+                    <span class="main-point">📊 Acceso rápido a información</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="Tutoriales integrados, tooltips contextuales y sistemas de progresión claros ayudan a los jugadores a entender las mecánicas gradualmente. La interfaz debe enseñar sin ser intrusiva, revelando complejidad a medida que el jugador avanza.">
+                    <span class="main-point">🎓 Comprensión de mecánicas</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="Una experiencia agradable combina estética atractiva con funcionalidad eficiente. Animaciones suaves, transiciones fluidas y feedback satisfactorio hacen que cada interacción sea placentera, aumentando el tiempo de juego y la satisfacción general.">
+                    <span class="main-point">😊 Experiencia agradable</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
             </ul>
         `
     },
@@ -154,12 +181,27 @@ const educationalContent = {
         title: 'NIVEL 3: Buenas Prácticas',
         presenter: '🎮 Jugador: Vanesa',
         content: `
-            <ul>
-                <li>Simplicidad visual</li>
-                <li>Consistencia en los elementos de la interfaz</li>
-                <li>Jerarquía clara de información</li>
-                <li>Uso correcto de colores</li>
-                <li>Accesibilidad para diferentes tipos de usuarios</li>
+            <ul class="interactive-list">
+                <li data-detail="Menos es más: elimina elementos innecesarios y enfócate en lo esencial. Cada elemento debe tener un propósito claro. El espacio en blanco (o negativo) es tan importante como los elementos visibles, ayudando a reducir la carga cognitiva.">
+                    <span class="main-point">🎨 Simplicidad visual</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="Mantén patrones consistentes en toda la interfaz: mismos colores para acciones similares, iconos coherentes, ubicación predecible de elementos. Esto crea familiaridad y reduce el tiempo de aprendizaje en diferentes secciones del juego.">
+                    <span class="main-point">🔄 Consistencia de elementos</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="Organiza la información por importancia: elementos críticos deben ser más grandes y prominentes, información secundaria puede ser más pequeña o accesible mediante menús. Usa tamaño, color y posición para guiar la atención del jugador.">
+                    <span class="main-point">📐 Jerarquía clara</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="Los colores comunican significado: rojo para peligro/vida baja, verde para éxito/salud, azul para información. Usa contraste adecuado para legibilidad y considera la accesibilidad para personas con daltonismo mediante patrones adicionales.">
+                    <span class="main-point">🌈 Uso correcto de colores</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="Diseña para todos: tamaños de texto ajustables, opciones de contraste, subtítulos, controles remapeables, y soporte para tecnologías asistivas. La accesibilidad no es opcional - amplía tu audiencia y mejora la experiencia para todos.">
+                    <span class="main-point">♿ Accesibilidad universal</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
             </ul>
         `
     },
@@ -167,12 +209,27 @@ const educationalContent = {
         title: 'NIVEL 4: Ejemplos de Interfaces',
         presenter: '🎮 Jugador: Alejandro',
         content: `
-            <ul>
-                <li>Barra de vida</li>
-                <li>Marcador de puntos</li>
-                <li>Minimapa</li>
-                <li>Inventario</li>
-                <li>Indicadores de misión</li>
+            <ul class="interactive-list">
+                <li data-detail="La barra de vida es uno de los elementos más críticos. Puede ser numérica, visual (barra), o integrada en el personaje. Debe ser visible sin ser intrusiva, con colores que indiquen claramente el estado (verde=bien, amarillo=precaución, rojo=peligro).">
+                    <span class="main-point">❤️ Barra de vida</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="El marcador de puntos motiva al jugador y muestra progreso. Puede incluir multiplicadores, combos y efectos visuales al aumentar. En juegos competitivos, también muestra rankings y comparaciones con otros jugadores en tiempo real.">
+                    <span class="main-point">🏆 Marcador de puntos</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="El minimapa proporciona orientación espacial sin interrumpir el juego. Debe mostrar objetivos, aliados, enemigos y puntos de interés con iconos claros. Puede ser estático o rotatorio según las necesidades del juego.">
+                    <span class="main-point">🗺️ Minimapa</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="El inventario organiza objetos, armas y recursos. Debe ser fácil de navegar con categorías claras, búsqueda rápida y comparación de ítems. Iconos distintivos y tooltips informativos son esenciales para una buena experiencia.">
+                    <span class="main-point">🎒 Inventario</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="Los indicadores de misión guían al jugador sin ser intrusivos. Pueden ser marcadores en pantalla, flechas direccionales o integrados en el mundo del juego. Deben actualizarse dinámicamente y ser fáciles de seguir.">
+                    <span class="main-point">🎯 Indicadores de misión</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
             </ul>
         `
     },
@@ -180,12 +237,27 @@ const educationalContent = {
         title: 'NIVEL 5: Herramientas de Diseño',
         presenter: '🎮 Jugador: Juan Pablo',
         content: `
-            <ul>
-                <li>Figma</li>
-                <li>Adobe XD</li>
-                <li>Unity UI System</li>
-                <li>Unreal Engine UI</li>
-                <li>Photoshop</li>
+            <ul class="interactive-list">
+                <li data-detail="Figma es el líder actual en diseño UI/UX. Basado en navegador, permite colaboración en tiempo real, prototipado interactivo, sistemas de diseño compartidos y plugins extensivos. Ideal para equipos distribuidos y flujos de trabajo ágiles. Es gratuito para uso personal.">
+                    <span class="main-point">🎨 Figma</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="Adobe XD está en modo mantenimiento desde 2024, pero sigue siendo útil para quienes usan el ecosistema Adobe. Ofrece integración con Photoshop e Illustrator, prototipado rápido y diseño responsivo. Adobe recomienda migrar a Figma para nuevos proyectos.">
+                    <span class="main-point">🔷 Adobe XD</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="Unity UI System (uGUI y UI Toolkit) permite crear interfaces directamente en el motor. Soporta Canvas escalable, eventos interactivos, animaciones y es perfecto para HUDs dinámicos. UI Toolkit usa USS (similar a CSS) para estilos más flexibles y reutilizables.">
+                    <span class="main-point">🎮 Unity UI System</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="Unreal Engine UI usa UMG (Unreal Motion Graphics) con Blueprint visual scripting. Potente para interfaces 3D, efectos visuales avanzados y animaciones complejas. Ideal para juegos AAA con interfaces cinemáticas y altamente estilizadas.">
+                    <span class="main-point">🔵 Unreal Engine UI</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
+                <li data-detail="Photoshop sigue siendo esencial para crear assets visuales: iconos, texturas, mockups y concept art. Aunque no es una herramienta de prototipado, es indispensable para la creación de elementos gráficos de alta calidad que luego se integran en las interfaces.">
+                    <span class="main-point">🖼️ Photoshop</span>
+                    <span class="expand-hint">▼ Click para más info</span>
+                </li>
             </ul>
         `
     }
@@ -442,14 +514,7 @@ function checkAutoPilotZoneReached() {
         showEducationalPanel(targetZone);
         updateNextZoneIndicator();
         
-        // Verificar si completó los 5 niveles
-        if (gameState.visitedZones.size >= 5) {
-            console.log('🎉 ¡Todos los niveles completados!');
-            setTimeout(() => {
-                showNotification('🎉 ¡Has completado los 5 niveles! La exposición ha terminado');
-                setTimeout(() => endGame(), 3000);
-            }, 1000);
-        }
+        // NO terminar el juego automáticamente - esperar a que el usuario cierre el panel
         
         // Limpiar objetivo
         gameState.targetX = null;
@@ -845,14 +910,7 @@ function checkCollisions() {
         showEducationalPanel(cell);
         updateNextZoneIndicator();
         
-        // Verificar si completó los 5 niveles (5 presentadores)
-        if (gameState.visitedZones.size >= 5) {
-            console.log('🎉 ¡Todos los niveles completados! Finalizando juego...');
-            showNotification('🎉 ¡Has completado los 5 niveles! La exposición ha terminado');
-            setTimeout(() => {
-                endGame();
-            }, 3000);
-        }
+        // NO terminar el juego automáticamente - esperar a que el usuario cierre el panel
     }
 }
 
@@ -890,10 +948,56 @@ function showEducationalPanel(zone) {
     const content = educationalContent[zone];
     
     document.getElementById('panelTitle').textContent = content.title;
-    document.getElementById('panelPresenter').textContent = content.presenter;
+    
+    // Actualizar el presentador en el lugar correcto
+    const presenterDiv = document.getElementById('panelPresenter');
+    if (presenterDiv) {
+        presenterDiv.textContent = content.presenter;
+    }
+    
     document.getElementById('panelContent').innerHTML = content.content;
     
     educationalPanel.classList.add('show');
+    
+    // Añadir funcionalidad de clic a los elementos de la lista
+    setTimeout(() => {
+        const listItems = document.querySelectorAll('.interactive-list li');
+        listItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const detail = this.getAttribute('data-detail');
+                const isExpanded = this.classList.contains('expanded');
+                
+                // Cerrar todos los demás elementos
+                listItems.forEach(li => {
+                    li.classList.remove('expanded');
+                    const existingDetail = li.querySelector('.detail-text');
+                    if (existingDetail) {
+                        existingDetail.remove();
+                    }
+                });
+                
+                if (!isExpanded && detail) {
+                    // Expandir este elemento
+                    this.classList.add('expanded');
+                    const detailDiv = document.createElement('div');
+                    detailDiv.className = 'detail-text';
+                    detailDiv.textContent = detail;
+                    this.appendChild(detailDiv);
+                    
+                    // Sonido de expansión
+                    playSound(800, 100);
+                    
+                    // Scroll suave al elemento expandido
+                    setTimeout(() => {
+                        this.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 100);
+                } else {
+                    // Sonido de cierre
+                    playSound(600, 80);
+                }
+            });
+        });
+    }, 300);
     
     // Añadir puntos por aprender
     gameState.score += config.educationalZonePoints;
@@ -923,11 +1027,20 @@ function closeEducationalPanel() {
     educationalPanel.classList.remove('show');
     gameState.isPaused = false;
     
-    // Actualizar indicador de siguiente zona
-    updateNextZoneIndicator();
-    
-    // Redibujar zonas clicables
-    drawClickableZones();
+    // Verificar si completó los 5 niveles DESPUÉS de cerrar el panel
+    if (gameState.visitedZones.size >= 5) {
+        console.log('🎉 ¡Todos los niveles completados! Finalizando juego...');
+        showNotification('🎉 ¡Has completado los 5 niveles! La exposición ha terminado');
+        setTimeout(() => {
+            endGame();
+        }, 2000);
+    } else {
+        // Actualizar indicador de siguiente zona
+        updateNextZoneIndicator();
+        
+        // Redibujar zonas clicables
+        drawClickableZones();
+    }
 }
 
 // Actualizar fantasmas
