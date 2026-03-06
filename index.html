@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diseño de Interfaces para Videojuegos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Pantalla de Inicio -->
+    <div id="startScreen" class="screen active">
+        <div class="title-container">
+            <h1 class="main-title">DISEÑO DE INTERFACES</h1>
+            <h1 class="main-title">PARA VIDEOJUEGOS</h1>
+            <div class="press-start">PRESS START</div>
+        </div>
+        <div class="team-members">
+            <h3>JUGADORES:</h3>
+            <p>🎮 Valentina</p>
+            <p>🎮 Fernando</p>
+            <p>🎮 Vanesa</p>
+            <p>🎮 Alejandro</p>
+            <p>🎮 Juan Pablo</p>
+        </div>
+        <button id="startButton" class="arcade-button">INICIAR JUEGO</button>
+    </div>
+
+    <!-- Pantalla de Juego -->
+    <div id="gameScreen" class="screen">
+        <!-- HUD -->
+        <div id="hud">
+            <div class="hud-item">
+                <span class="hud-label">SCORE:</span>
+                <span id="score">0</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">NIVEL:</span>
+                <span id="level">1</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">PROGRESO:</span>
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">VIDAS:</span>
+                <span id="lives">❤️❤️❤️</span>
+            </div>
+            <div class="hud-controls">
+                <span>🖱️ CLIC EN ZONAS | ⬆️⬇️⬅️➡️ MOVER | ESPACIO: TURBO</span>
+            </div>
+            <div class="hud-item">
+                <button id="autoPilotBtn" class="auto-pilot-btn">➜ SIGUIENTE ZONA</button>
+            </div>
+        </div>
+
+        <!-- Indicador de siguiente zona -->
+        <div id="nextZoneIndicator" class="next-zone-indicator">
+            <div class="indicator-content">
+                <div class="indicator-arrow">➜</div>
+                <div class="indicator-text">
+                    <div id="nextZoneName">Siguiente: Nivel 1</div>
+                    <div id="nextZonePresenter">Valentina</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Canvas del Juego -->
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- Canvas de Partículas -->
+        <canvas id="particleCanvas"></canvas>
+        
+        <!-- Overlay de zonas clicables -->
+        <canvas id="clickCanvas"></canvas>
+
+        <!-- Notificaciones flotantes -->
+        <div id="notifications"></div>
+
+        <!-- Panel Educativo -->
+        <div id="educationalPanel" class="educational-panel">
+            <div class="panel-header">
+                <h2 id="panelTitle"></h2>
+                <button id="closePanel" class="close-btn">✕</button>
+            </div>
+            <div class="panel-content">
+                <div id="panelPresenter" class="presenter"></div>
+                <div id="panelContent"></div>
+                <div class="panel-footer">
+                    <button id="nextLevel" class="arcade-button-small">CONTINUAR ➜</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Indicador de combo -->
+        <div id="comboIndicator" class="combo-indicator">
+            <span id="comboText"></span>
+        </div>
+    </div>
+
+    <!-- Pantalla Final -->
+    <div id="endScreen" class="screen">
+        <div class="end-container">
+            <h1 class="end-title">¡MISIÓN COMPLETADA!</h1>
+            
+            <div class="conclusion">
+                <p>Las interfaces son fundamentales en los videojuegos porque permiten que los jugadores interactúen con el sistema, comprendan la información y disfruten una experiencia clara y divertida.</p>
+            </div>
+            
+            <div class="final-score">
+                <h2>PUNTUACIÓN FINAL</h2>
+                <p id="finalScore">0</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-label">NIVELES COMPLETADOS</div>
+                    <div class="stat-value" id="levelsCompleted">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">PELLETS RECOLECTADOS</div>
+                    <div class="stat-value" id="pelletsCollected">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">COMBO MÁXIMO</div>
+                    <div class="stat-value" id="maxCombo">0</div>
+                </div>
+            </div>
+            
+            <button id="restartButton" class="arcade-button">JUGAR DE NUEVO</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
