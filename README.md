@@ -140,42 +140,42 @@ function loop() {
 
 ---
 
-## 🏗️ Estructura del Código
+## 🏗️ Estructura del Proyecto
 
-Todo el proyecto vive en un **único archivo HTML** sin dependencias externas de JavaScript:
+El proyecto está organizado en múltiples archivos para mayor claridad y mantenibilidad:
 
 ```
-gameui-expo.html
+interfacesjuegos/
 │
-├── <head>
-│   └── Google Fonts (Orbitron, Rajdhani, Share Tech Mono)
+├── index.html          ← Punto de entrada y estructura HTML de las 4 pantallas
 │
-├── <style>  ── CSS completo
-│   ├── Variables CSS (:root) — paleta de colores
-│   ├── Animaciones — glitch, scanlines, fadeIn, pulsos neon
-│   ├── Pantallas — boot, map, game, expo, victory
-│   └── Componentes — cards, countdown, progress bars, botones
+├── css/
+│   └── styles.css      ← CSS completo
+│       ├── Variables CSS (:root) — paleta de colores
+│       ├── Animaciones — glitch, scanlines, fadeIn, pulsos neon
+│       ├── Pantallas — boot, map, game, expo, victory
+│       └── Componentes — cards, countdown, progress bars, botones
 │
-└── <script>  ── JavaScript vanilla
-    │
-    ├── MODULES[]          ← datos de los 5 módulos
+└── js/
+    ├── data.js         ← Datos de los 5 módulos (MODULES[])
     │   ├── scenarioName, icon, color
     │   ├── title, question
-    │   └── content[]      ← bloques de exposición tipados
+    │   └── content[]   ← bloques de exposición tipados
     │
-    ├── Navegación         ← goTo(), restartAll()
-    ├── Boot sequence      ← typewriter animado
-    ├── Mapa               ← renderMap(), nodos locked/available/completed
-    ├── Game Engine        ← startGame(), stopGame(), game loop
+    ├── games.js        ← Motores de los 5 mini-juegos (JavaScript vanilla)
+    │   ├── CollectorGame  ← IA: potential fields
+    │   ├── MazeGame       ← IA: BFS + generación DFS
+    │   ├── ShooterGame    ← IA: targeting + auto-shoot
+    │   ├── PlatformerGame ← IA: state machine
+    │   └── RunnerGame     ← IA: obstacle detection anticipada
     │
-    ├── CollectorGame      ← IA: potential fields
-    ├── MazeGame           ← IA: BFS + generación DFS
-    ├── ShooterGame        ← IA: targeting + auto-shoot
-    ├── PlatformerGame     ← IA: state machine
-    ├── RunnerGame         ← IA: obstacle detection anticipada
-    │
-    ├── openExpo()         ← renderizado dinámico del contenido
-    └── startCountdown()   ← timer 15min + avance automático
+    └── main.js         ← Lógica principal de la aplicación
+        ├── Navegación     ← goTo(), restartAll()
+        ├── Boot sequence  ← typewriter animado
+        ├── Mapa           ← renderMap(), nodos locked/available/completed
+        ├── Game Engine    ← startGame(), stopGame(), game loop
+        ├── openExpo()     ← renderizado dinámico del contenido
+        └── startCountdown() ← timer 15min + avance automático
 ```
 
 ---
@@ -227,7 +227,7 @@ gameui-expo.html
 ## ▶️ Cómo Ejecutar
 
 ```
-Doble clic en gameui-expo.html → se abre en cualquier navegador moderno
+Doble clic en index.html → se abre en cualquier navegador moderno
 ```
 
 No requiere servidor ni instalación.
