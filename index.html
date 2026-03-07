@@ -1,137 +1,120 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diseño de Interfaces para Videojuegos</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Diseño de Interfaces para Juegos — Exposición Jugable</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css"/>
 </head>
 <body>
-    <!-- Pantalla de Inicio -->
-    <div id="startScreen" class="screen active">
-        <div class="title-container">
-            <h1 class="main-title">DISEÑO DE INTERFACES</h1>
-            <h1 class="main-title">PARA VIDEOJUEGOS</h1>
-            <div class="press-start">PRESS START</div>
-        </div>
-        <div class="team-members">
-            <h3>JUGADORES:</h3>
-            <p>🎮 Valentina</p>
-            <p>🎮 Fernando</p>
-            <p>🎮 Vanesa</p>
-            <p>🎮 Alejandro</p>
-            <p>🎮 Juan Pablo</p>
-        </div>
-        <button id="startButton" class="arcade-button">INICIAR JUEGO</button>
+<div class="scanlines" aria-hidden="true"></div>
+
+<!-- BOOT -->
+<div id="s-boot" class="screen active">
+  <div class="boot-grid"></div>
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;position:relative;z-index:10;padding:24px;text-align:center;">
+    <div class="glitch-wrap" style="margin-bottom:16px;text-align:center;">
+      <div style="font-family:'Orbitron',monospace;font-weight:900;font-size:clamp(1.8rem,6vw,4rem);letter-spacing:.08em;color:var(--cyan);text-shadow:0 0 20px rgba(0,245,255,.8);">DISEÑO DE</div>
+      <div style="position:relative;display:inline-block;">
+        <h1 class="glitch" data-text="INTERFACES" style="font-size:clamp(2.2rem,8vw,5.5rem);display:block;">INTERFACES</h1>
+      </div>
+      <div style="font-family:'Orbitron',monospace;font-weight:900;font-size:clamp(1.6rem,5vw,3.5rem);letter-spacing:.06em;color:var(--cyan);text-shadow:0 0 20px rgba(0,245,255,.8);">PARA JUEGOS</div>
     </div>
+    <p class="font-mono" style="color:var(--cyan);letter-spacing:.25em;font-size:.75rem;margin-bottom:4px;">EXPOSICIÓN JUGABLE INTERACTIVA</p>
+    <p class="font-mono text-gray" style="font-size:.7rem;letter-spacing:.2em;margin-bottom:28px;">5 ESCENARIOS · 5 PREGUNTAS · JUGABILIDAD TOTAL</p>
+    <div id="boot-terminal"></div>
+    <button id="btn-boot-start" class="btn-neon hidden" style="margin-top:24px;font-size:1rem;">▶ INICIAR EXPOSICIÓN</button>
+  </div>
+</div>
 
-    <!-- Pantalla de Juego -->
-    <div id="gameScreen" class="screen">
-        <!-- HUD -->
-        <div id="hud">
-            <div class="hud-item">
-                <span class="hud-label">SCORE:</span>
-                <span id="score">0</span>
-            </div>
-            <div class="hud-item">
-                <span class="hud-label">NIVEL:</span>
-                <span id="level">1</span>
-            </div>
-            <div class="hud-item">
-                <span class="hud-label">PROGRESO:</span>
-                <div class="progress-bar">
-                    <div id="progressFill" class="progress-fill"></div>
-                </div>
-            </div>
-            <div class="hud-item">
-                <span class="hud-label">VIDAS:</span>
-                <span id="lives">❤️❤️❤️</span>
-            </div>
-            <div class="hud-controls">
-                <span>🖱️ CLIC EN ZONAS | ⬆️⬇️⬅️➡️ MOVER | ESPACIO: TURBO</span>
-            </div>
-            <div class="hud-item">
-                <button id="autoPilotBtn" class="auto-pilot-btn">➜ SIGUIENTE ZONA</button>
-            </div>
-        </div>
-
-        <!-- Indicador de siguiente zona -->
-        <div id="nextZoneIndicator" class="next-zone-indicator">
-            <div class="indicator-content">
-                <div class="indicator-arrow">➜</div>
-                <div class="indicator-text">
-                    <div id="nextZoneName">Siguiente: Nivel 1</div>
-                    <div id="nextZonePresenter">Valentina</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Canvas del Juego -->
-        <canvas id="gameCanvas"></canvas>
-        
-        <!-- Canvas de Partículas -->
-        <canvas id="particleCanvas"></canvas>
-        
-        <!-- Overlay de zonas clicables -->
-        <canvas id="clickCanvas"></canvas>
-
-        <!-- Notificaciones flotantes -->
-        <div id="notifications"></div>
-
-        <!-- Panel Educativo -->
-        <div id="educationalPanel" class="educational-panel">
-            <div class="panel-header">
-                <h2 id="panelTitle"></h2>
-                <button id="closePanel" class="close-btn">✕</button>
-            </div>
-            <div class="panel-content">
-                <div id="panelPresenter" class="presenter"></div>
-                <div id="panelContent"></div>
-                <div class="panel-footer">
-                    <button id="nextLevel" class="arcade-button-small">CONTINUAR ➜</button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Indicador de combo -->
-        <div id="comboIndicator" class="combo-indicator">
-            <span id="comboText"></span>
-        </div>
+<!-- MAP -->
+<div id="s-map" class="screen">
+  <div class="map-bg"></div>
+  <div class="hud-top">
+    <span class="font-mono" style="color:var(--cyan);font-size:.75rem;letter-spacing:.2em;">GAME UI EXPO</span>
+    <div style="display:flex;align-items:center;gap:8px;"><div class="led-green"></div><span class="font-mono text-green" style="font-size:.75rem;">LIVE SESSION</span></div>
+    <span class="font-mono" style="color:var(--cyan);font-size:.75rem;" id="map-clock">00:00:00</span>
+  </div>
+  <div style="position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:16px;">
+    <h2 class="font-display" style="color:var(--cyan);letter-spacing:.2em;font-size:clamp(.9rem,2.5vw,1.5rem);margin-top:56px;margin-bottom:2px;text-align:center;">DISEÑO DE INTERFACES PARA JUEGOS</h2>
+    <p class="font-mono" style="color:var(--magenta);letter-spacing:.15em;font-size:.7rem;margin-bottom:20px;text-align:center;">SELECCIONA UN ESCENARIO PARA COMENZAR</p>
+    <div class="level-map" id="level-map"></div>
+    <div style="width:100%;max-width:520px;margin-top:24px;">
+      <div style="display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:.75rem;color:#4a6080;margin-bottom:4px;">
+        <span>PROGRESO TOTAL</span><span id="map-prog-txt">0 / 5</span>
+      </div>
+      <div class="prog-bar-bg"><div class="prog-bar-fill" id="map-prog-fill" style="width:0%"></div></div>
     </div>
+  </div>
+</div>
 
-    <!-- Pantalla Final -->
-    <div id="endScreen" class="screen">
-        <div class="end-container">
-            <h1 class="end-title">¡MISIÓN COMPLETADA!</h1>
-            
-            <div class="conclusion">
-                <p>Las interfaces son fundamentales en los videojuegos porque permiten que los jugadores interactúen con el sistema, comprendan la información y disfruten una experiencia clara y divertida.</p>
-            </div>
-            
-            <div class="final-score">
-                <h2>PUNTUACIÓN FINAL</h2>
-                <p id="finalScore">0</p>
-            </div>
-            
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-label">NIVELES COMPLETADOS</div>
-                    <div class="stat-value" id="levelsCompleted">0</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">PELLETS RECOLECTADOS</div>
-                    <div class="stat-value" id="pelletsCollected">0</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">COMBO MÁXIMO</div>
-                    <div class="stat-value" id="maxCombo">0</div>
-                </div>
-            </div>
-            
-            <button id="restartButton" class="arcade-button">JUGAR DE NUEVO</button>
+<!-- GAME -->
+<div id="s-game" class="screen">
+  <div class="game-hud-top" id="game-hud-top">
+    <button class="back-sm" id="btn-game-back">← MAPA</button>
+    <div class="font-mono" style="font-size:.75rem;color:var(--yellow);text-align:center;" id="game-instructions">🤖 MODO AUTOMÁTICO — OBSERVA EL JUEGO</div>
+    <span class="font-mono" style="font-size:.75rem;color:var(--cyan);" id="game-objective">🏆 Encuentra el premio</span>
+  </div>
+  <canvas id="game-canvas"></canvas>
+  <div class="mobile-controls" id="mobile-controls">
+    <div class="mob-row"><button class="mob-btn" id="mob-up">▲</button></div>
+    <div class="mob-row"><button class="mob-btn" id="mob-left">◀</button><button class="mob-btn" id="mob-action" style="background:rgba(255,215,0,.2);border-color:var(--yellow);color:var(--yellow);">●</button><button class="mob-btn" id="mob-right">▶</button></div>
+    <div class="mob-row"><button class="mob-btn" id="mob-down">▼</button></div>
+  </div>
+</div>
+
+<!-- EXPO -->
+<div id="s-expo" class="screen">
+  <div class="expo-bg"></div>
+  <div style="position:relative;z-index:10;height:100%;overflow-y:auto;" class="expo-scroll">
+    <div style="max-width:860px;margin:0 auto;padding:20px 16px 60px;">
+      <div class="expo-header-card" style="margin-bottom:20px;">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;">
+          <div class="prize-icon-big" id="expo-icon">🏆</div>
+          <div style="flex:1;min-width:180px;">
+            <div class="section-tag" id="expo-mod-tag" style="margin-bottom:6px;">MÓDULO 01</div>
+            <h2 class="expo-main-title" id="expo-title">Título</h2>
+            <p class="font-mono" style="font-size:.7rem;color:#4a6080;margin-top:4px;" id="expo-scenario-name">Escenario</p>
+          </div>
+          <div class="countdown-block">
+            <div class="font-mono" style="font-size:.7rem;color:#4a6080;margin-bottom:4px;text-align:center;">⏱ TIEMPO RESTANTE</div>
+            <div class="countdown-num" id="countdown-display">15:00</div>
+            <div class="cd-bar-bg" style="margin-top:6px;"><div class="cd-bar-fill" id="cd-bar-fill" style="width:100%"></div></div>
+          </div>
         </div>
+      </div>
+      <div class="question-highlight" id="expo-question"></div>
+      <div id="expo-content" style="margin-top:20px;"></div>
+      <div style="margin-top:32px;padding-bottom:60px;" id="next-area">
+        <div style="text-align:center;">
+          <button id="btn-next-scene" class="btn-neon" style="font-size:.85rem;padding:14px 40px;letter-spacing:.15em;">SIGUIENTE ESCENARIO →</button>
+        </div>
+        <div id="auto-status" style="text-align:center;margin-top:16px;display:none;">
+          <p class="font-mono" id="auto-status-txt" style="font-size:.8rem;color:var(--cyan);letter-spacing:.15em;animation:fadeInUp .4s ease;"></p>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
 
-    <script src="game.js"></script>
+<!-- VICTORY -->
+<div id="s-victory" class="screen">
+  <div class="victory-bg"></div>
+  <div style="position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-height:100%;padding:60px 24px 40px;text-align:center;">
+    <div class="trophy-pulse" style="font-size:5rem;margin-bottom:16px;">🏆</div>
+    <h2 class="font-display" style="font-size:clamp(1.8rem,5vw,3.5rem);font-weight:900;color:var(--yellow);margin-bottom:8px;letter-spacing:.1em;">¡EXPOSICIÓN COMPLETA!</h2>
+    <p class="font-mono" style="color:var(--cyan);font-size:.75rem;letter-spacing:.2em;margin-bottom:32px;">DOMINASTE LOS 5 MÓDULOS DE DISEÑO DE INTERFACES PARA JUEGOS</p>
+    <div class="victory-cards" id="victory-cards"></div>
+    <div style="margin-top:24px;padding:20px;border:1px solid rgba(255,215,0,.3);background:rgba(255,215,0,.05);border-radius:12px;max-width:560px;">
+      <p class="font-mono" style="color:var(--yellow);font-size:.9rem;line-height:1.7;">🎓 Has demostrado que el diseño de interfaces es lo que convierte un juego en una experiencia inolvidable. ¡Cada píxel, cada color, cada segundo de feedback cuenta!</p>
+    </div>
+    <button class="btn-neon" onclick="restartAll()" style="margin-top:24px;padding:14px 40px;letter-spacing:.15em;">↺ REINICIAR</button>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/games.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
