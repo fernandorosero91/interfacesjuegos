@@ -101,7 +101,7 @@ const mazeMap = [
 const zoneLocations = {
     3: { x: 3.5 * config.tileSize, y: 3.5 * config.tileSize, name: 'Nivel 1', presenter: 'Jugador: Valentina' },
     4: { x: 23.5 * config.tileSize, y: 3.5 * config.tileSize, name: 'Nivel 2', presenter: 'Jugador: Fernando' },
-    5: { x: 3.5 * config.tileSize, y: 11.5 * config.tileSize, name: 'Nivel 3', presenter: 'Jugador: Vanesa' },
+    5: { x: 3.5 * config.tileSize, y: 11.5 * config.tileSize, name: 'Nivel 3', presenter: 'Jugador: Vanessa' },
     6: { x: 23.5 * config.tileSize, y: 11.5 * config.tileSize, name: 'Nivel 4', presenter: 'Jugador: Alejandro' },
     7: { x: 3.5 * config.tileSize, y: 17.5 * config.tileSize, name: 'Nivel 5', presenter: 'Jugador: Juan Pablo' }
 };
@@ -152,7 +152,7 @@ const educationalContent = {
     },
     5: {
         title: 'NIVEL 3: Buenas Prácticas',
-        presenter: '🎮 Jugador: Vanesa',
+        presenter: '🎮 Jugador: Vanessa',
         content: `
             <ul>
                 <li>Simplicidad visual</li>

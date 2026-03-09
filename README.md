@@ -36,7 +36,7 @@ Una presentación educativa en formato de videojuego estilo arcade retro para la
 **Tema:** Ventajas para los usuarios
 - Zona: Arriba derecha (cuadros verdes con ✓ o rojos)
 
-### Nivel 3 - Vanesa
+### Nivel 3 - Vanessa
 **Tema:** Buenas prácticas en el diseño de interfaces
 - Zona: Centro izquierda (cuadros rojos o magenta)
 
@@ -95,7 +95,7 @@ El juego termina automáticamente cuando se visitan las 5 zonas educativas. Se m
 
 - 🎮 Valentina
 - 🎮 Fernando
-- 🎮 Vanesa
+- 🎮 Vanessa
 - 🎮 Alejandro
 - 🎮 Juan Pablo
 
