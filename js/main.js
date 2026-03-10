@@ -6,8 +6,8 @@ let currentModuleIdx = 0;
 let clockInterval = null;
 let clockStart = null;
 let countdownInterval = null;
-let countdownSeconds = 900; // 15 min
-const COUNTDOWN_TOTAL = 900;
+let countdownSeconds = 180; // 3 min
+const COUNTDOWN_TOTAL = 180;
 
 // ============================================================
 // NAVIGATION
@@ -200,11 +200,46 @@ function stopGame() {
 // ============================================================
 function openExpo(modIdx) {
   const mod = MODULES[modIdx];
+  const c = mod.color; // module accent color
+  // Helper: convert hex to rgb for rgba() usage
+  const hexToRgb = hex => {
+    const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+    return `${r},${g},${b}`;
+  };
+  const rgb = hexToRgb(c);
+
   document.getElementById('expo-icon').textContent = mod.icon;
   document.getElementById('expo-mod-tag').textContent = mod.modTag;
   document.getElementById('expo-title').textContent = mod.title;
   document.getElementById('expo-scenario-name').textContent = `ESCENARIO: ${mod.scenarioName}`;
   document.getElementById('expo-question').textContent = `❓ ${mod.question}`;
+
+  // Apply module color to expo UI elements
+  const expoHeaderCard = document.querySelector('.expo-header-card');
+  expoHeaderCard.style.borderColor = `rgba(${rgb},.3)`;
+  expoHeaderCard.style.boxShadow = `0 4px 40px rgba(0,0,0,.6), 0 0 30px rgba(${rgb},.15), inset 0 1px 0 rgba(255,255,255,.05)`;
+
+  const sectionTag = document.querySelector('.section-tag');
+  sectionTag.style.color = c;
+  sectionTag.style.background = `rgba(${rgb},.1)`;
+  sectionTag.style.borderColor = `rgba(${rgb},.3)`;
+
+  const expoTitle = document.getElementById('expo-title');
+  expoTitle.style.textShadow = `0 0 20px rgba(${rgb},.4)`;
+
+  const questionHighlight = document.querySelector('.question-highlight');
+  questionHighlight.style.background = `linear-gradient(135deg, rgba(${rgb},.1), rgba(${rgb},.05))`;
+  questionHighlight.style.borderColor = `rgba(${rgb},.3)`;
+  questionHighlight.style.borderLeftColor = c;
+  questionHighlight.style.color = c;
+
+  const expoBg = document.querySelector('.expo-bg');
+  expoBg.style.background = `radial-gradient(ellipse at 20% 50%, rgba(${rgb},.12) 0%, #020610 60%)`;
+
+  // Countdown bar color
+  const cdBarFill = document.getElementById('cd-bar-fill');
+  cdBarFill.style.background = `linear-gradient(90deg, ${c}, #ffd700)`;
+
   // render content
   const container = document.getElementById('expo-content');
   container.innerHTML = '';
@@ -212,14 +247,15 @@ function openExpo(modIdx) {
     const card = document.createElement('div');
     card.className = 'expo-card';
     card.style.animationDelay = `${bi * 0.12}s`;
+    card.style.borderColor = `rgba(${rgb},.18)`;
     let html = '';
-    if (block.title) html += `<h3>${block.title}</h3>`;
+    if (block.title) html += `<h3 style="color:${c}; border-bottom-color:rgba(${rgb},.2)">${block.title}</h3>`;
     switch (block.type) {
       case 'intro':
         html += `<p>${block.text}</p>`;
         break;
       case 'list':
-        html += `<ul>${block.items.map(it => `<li>${it}</li>`).join('')}</ul>`;
+        html += `<ul>${block.items.map(it => `<li style="background:rgba(${rgb},.05);border-color:rgba(${rgb},.15)"><span style="color:${c};flex-shrink:0">▸</span>${it}</li>`).join('')}</ul>`;
         break;
       case 'highlight':
         html += `<div class="highlight-box">${block.text}</div>`;
@@ -267,7 +303,7 @@ function startCountdown(modIdx) {
     const s = String(countdownSeconds % 60).padStart(2, '0');
     display.textContent = `${m}:${s}`;
     bar.style.width = `${(countdownSeconds / COUNTDOWN_TOTAL) * 100}%`;
-    if (countdownSeconds <= 60) {
+    if (countdownSeconds <= 30) {
       display.classList.add('urgent');
       bar.style.background = 'linear-gradient(90deg, #ff4444, #ff8800)';
     } else {

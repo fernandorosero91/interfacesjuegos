@@ -17,22 +17,22 @@ const MODULES = [
       {
         type: 'intro',
         title: '¿Qué es una Game UI?',
-        text: 'La interfaz de usuario en videojuegos (Game UI) es el conjunto de elementos visuales, auditivos e interactivos que comunican información al jugador y le permiten tomar decisiones. Es el puente entre el jugador y el mundo virtual, traduce datos complejos en señales comprensibles al instante.'
+        text: 'La Game UI es el conjunto de elementos visuales e interactivos que comunican información al jugador. Es el puente entre el jugador y el mundo virtual.'
       },
       {
         type: 'list',
         title: 'Cómo mejoran la experiencia',
         items: [
-          'Reducen la carga cognitiva: presentan la información esencial sin saturar la pantalla, permitiendo al jugador enfocarse en el gameplay.',
-          'Generan inmersión: las interfaces bien diseñadas se integran naturalmente al mundo del juego, manteniendo la ilusión sin interrupciones.',
-          'Comunican estado del juego: vida, munición, objetivos, tiempo — todo accesible de un vistazo sin pausar la acción.',
-          'Orientan la toma de decisiones: indicadores claros guían al jugador hacia acciones correctas en momentos críticos.',
-          'Crean identidad visual: la UI refuerza el estilo artístico del juego, haciendo cada título reconocible y memorable.'
+          'Reducen la carga cognitiva: presentan solo la información esencial.',
+          'Generan inmersión: se integran al mundo del juego sin interrupciones.',
+          'Comunican estado: vida, munición y objetivos accesibles de un vistazo.',
+          'Orientan decisiones: indicadores claros guían al jugador en momentos críticos.',
+          'Crean identidad visual: refuerzan el estilo artístico del juego.'
         ]
       },
       {
         type: 'highlight',
-        text: '💡 Estadística clave: El 73% de los jugadores reporta que una UI confusa o mal diseñada es la principal razón para abandonar un juego en las primeras 30 minutos de juego.'
+        text: '💡 El 73% de los jugadores abandona un juego en los primeros 30 minutos si la UI es confusa.'
       }
     ]
   },
@@ -51,23 +51,23 @@ const MODULES = [
       {
         type: 'intro',
         title: 'Ventajas fundamentales',
-        text: 'Una UI bien construida no es solo estética: es funcionalidad pura. Las ventajas se extienden tanto al jugador como al desarrollador, creando un ecosistema donde el diseño trabaja a favor del juego.'
+        text: 'Una UI bien construida no es solo estética: es funcionalidad pura. Sus ventajas benefician tanto al jugador como al desarrollador.'
       },
       {
         type: 'list',
         title: 'Ventajas principales',
         items: [
-          'Aprendizaje acelerado: el jugador comprende los mecánismos del juego más rápido con una UI intuitiva, reduciendo el tiempo de tutorial.',
-          'Mayor retención: los jugadores permanecen más tiempo en juegos con interfaces claras. Un buen HUD reduce la frustración y prolonga sesiones.',
-          'Accesibilidad ampliada: diseños inclusivos con opciones de daltonismo, tamaño de texto y contraste abren el juego a más audiencias.',
-          'Satisfacción de feedback: cada acción del jugador recibe una respuesta visual o auditiva, creando un ciclo de gratificación constante.',
-          'Reducción de errores: indicadores claros previenen acciones no deseadas, como usar el item equivocado en un momento crítico.',
-          'Confianza en el sistema: cuando el jugador entiende la UI, confía en el juego y se siente en control de sus decisiones.'
+          'Aprendizaje acelerado: el jugador comprende los mecánismos más rápido, reduciendo el tutorial.',
+          'Mayor retención: interfaces claras reducen la frustración y prolongan sesiones de juego.',
+          'Accesibilidad ampliada: opciones de daltonismo, tamaño de texto y contraste llegan a más audiencias.',
+          'Feedback satisfactorio: cada acción recibe respuesta visual o auditiva, creando ciclos de gratificación.',
+          'Reducción de errores: indicadores claros previenen acciones no deseadas en momentos críticos.',
+          'Confianza en el sistema: cuando el jugador entiende la UI, se siente en control.'
         ]
       },
       {
         type: 'highlight',
-        text: '🎮 Dato de industria: Los juegos con UI clasificada como "excelente" por sus usuarios tienen un 40% más de probabilidad de recibir reseñas positivas y recomendaciones.'
+        text: '🎮 Los juegos con UI "excelente" tienen un 40% más de probabilidad de recibir reseñas positivas.'
       }
     ]
   },
@@ -86,25 +86,25 @@ const MODULES = [
       {
         type: 'intro',
         title: 'Principios del buen diseño',
-        text: 'Las buenas prácticas en Game UI nacen de la intersección entre diseño UX, psicología cognitiva y comprensión profunda del gameplay. No se trata de seguir reglas, sino de entender por qué cada decisión de diseño afecta la experiencia del jugador.'
+        text: 'Las buenas prácticas en Game UI nacen de la intersección entre diseño UX y psicología cognitiva. Cada decisión de diseño afecta directamente la experiencia del jugador.'
       },
       {
         type: 'list',
         title: 'Las 8 reglas de oro',
         items: [
-          'Claridad ante todo: el jugador nunca debe dudar sobre qué significa un elemento de la UI. Si hay confusión, hay un problema de diseño.',
-          'Consistencia visual: colores, iconografía y tipografías deben seguir un sistema coherente en toda la interfaz.',
-          'Jerarquía de información: la información más crítica (vida, tiempo) debe ser más visible que la secundaria (puntuación, estadísticas).',
-          'Feedback inmediato: toda acción debe tener respuesta visual en menos de 100ms para que el cerebro la asocie como consecuencia.',
-          'Mínima fricción: la UI no debe requerir más de 2-3 clics para acceder a cualquier función importante.',
-          'Diseño contextual: la UI debe adaptarse al estado del juego, mostrando más información en momentos de calma y menos en combate.',
-          'Prueba con usuarios reales: el juicio del diseñador no reemplaza las pruebas con jugadores reales de diferentes perfiles.',
-          'Prototipa antes de implementar: los wireframes y mockups permiten validar decisiones antes de invertir tiempo en desarrollo.'
+          'Claridad ante todo: el jugador nunca debe dudar sobre qué significa un elemento.',
+          'Consistencia visual: colores, iconos y tipografías siguen un sistema coherente.',
+          'Jerarquía de información: lo más crítico (vida, tiempo) debe ser más visible.',
+          'Feedback inmediato: toda acción debe tener respuesta visual en menos de 100ms.',
+          'Mínima fricción: máximo 2-3 clics para acceder a cualquier función importante.',
+          'Diseño contextual: adaptar la UI al estado del juego (calma vs combate).',
+          'Prueba con usuarios reales: el juicio del diseñador no reemplaza las pruebas reales.',
+          'Prototipa antes de implementar: los wireframes validan decisiones antes del desarrollo.'
         ]
       },
       {
         type: 'highlight',
-        text: '⚡ Regla fundamental: "La mejor UI es la que no se nota". Cuando el jugador está completamente inmerso y no piensa en la interfaz, el diseñador ha logrado su objetivo.'
+        text: "⚡ Regla de oro: La mejor UI es la que no se nota. Cuando el jugador está inmerso y no piensa en la interfaz, el diseñador logró su objetivo."
       }
     ]
   },
@@ -123,23 +123,23 @@ const MODULES = [
       {
         type: 'intro',
         title: 'Referentes históricos',
-        text: 'La historia del diseño de interfaces en videojuegos está llena de momentos revolucionarios donde un solo juego cambió para siempre la forma en que los demás diseñaban sus interfaces.'
+        text: 'La historia del diseño de interfaces en videojuegos tiene momentos revolucionarios donde un solo juego cambió la forma en que todos diseñaban sus UIs.'
       },
       {
         type: 'examples',
         title: 'Casos icónicos',
         items: [
-          { icon: '🔴', title: 'Dead Space', desc: 'El HUD integrado en el personaje (barra de vida en la columna vertebral) revolucionó la UI diegética — sin romper la inmersión.' },
-          { icon: '🟡', title: 'The Last of Us', desc: 'UI minimalista extrema que muestra solo lo esencial. Las animaciones del personaje comunican el estado de salud sin barras visibles.' },
-          { icon: '🔵', title: 'Metroid Prime', desc: 'El visor del casco crea una UI completamente diegética donde el jugador ve lo que ve el personaje.' },
-          { icon: '🟢', title: 'Super Mario Bros', desc: 'Inventó el lenguaje visual de videojuegos: barras de vida con bloques, monedas contadas, tiempo con números. Base de toda UI moderna.' },
-          { icon: '🟣', title: 'Dark Souls', desc: 'Minimal HUD que confía en el jugador. La información de estado se muestra solo cuando es relevante, respetando la inteligencia del jugador.' },
-          { icon: '⚪', title: 'Monument Valley', desc: 'UI invisible: no tiene botones ni indicadores. El nivel entero es la interfaz. Redefinió qué puede ser una game UI.' }
+          { icon: '🔴', title: 'Dead Space', desc: 'HUD integrado en el personaje (barra de vida en la columna vertebral). UI diegética sin romper la inmersión.' },
+          { icon: '🟡', title: 'The Last of Us', desc: 'UI minimalista extrema. Las animaciones del personaje comunican salud sin barras visibles.' },
+          { icon: '🔵', title: 'Metroid Prime', desc: 'El visor del casco es una UI diegética completa: el jugador ve lo que ve el personaje.' },
+          { icon: '🟢', title: 'Super Mario Bros', desc: 'Inventó el lenguaje visual de videojuegos: barras de vida, monedas, tiempo. Base de toda UI moderna.' },
+          { icon: '🟣', title: 'Dark Souls', desc: 'HUD minimal que muestra el estado solo cuando es relevante, respetando la inteligencia del jugador.' },
+          { icon: '⚪', title: 'Monument Valley', desc: 'UI invisible: sin botones ni indicadores. El nivel entero es la interfaz.' }
         ]
       },
       {
         type: 'highlight',
-        text: '🏆 La UI diegética (integrada en el mundo del juego) es la tendencia más influyente del diseño moderno. Dead Space, publicado en 2008, sigue siendo el referente que todos los diseñadores estudian.'
+        text: '🏆 La UI diegética es la tendencia más influyente del diseño moderno. Dead Space (2008) sigue siendo el referente que todos estudian.'
       }
     ]
   },
@@ -158,7 +158,7 @@ const MODULES = [
       {
         type: 'intro',
         title: 'El arsenal del diseñador',
-        text: 'Los profesionales del diseño de Game UI trabajan con un conjunto específico de herramientas que van desde el diseño visual hasta el prototipado interactivo y la implementación en motores de juego. El dominio de estas herramientas es esencial para un pipeline eficiente.'
+        text: 'Los profesionales del Game UI trabajan con herramientas específicas: desde diseño visual hasta prototipado e implementación en motores de juego.'
       },
       {
         type: 'tools',
@@ -178,17 +178,17 @@ const MODULES = [
         type: 'list',
         title: 'Flujo de trabajo profesional',
         items: [
-          'Investigación y referentes: análisis de UIs existentes, benchmarking con la competencia y definición del estilo visual del juego.',
-          'Wireframing: bocetos de baja fidelidad para validar la estructura y flujo de información antes de invertir en diseño visual.',
-          'Diseño visual en Figma/XD: creación de mockups de alta fidelidad con el sistema de diseño completo (colores, tipografías, componentes).',
-          'Prototipado interactivo: simulación del comportamiento de la UI con animaciones y transiciones para validar con el equipo.',
-          'Implementación en motor: exportación de assets y recreación en Unity Canvas, Unreal UMG o el motor específico del proyecto.',
-          'Testing y iteración: pruebas de usabilidad con jugadores reales y ajustes basados en datos de analítica y feedback cualitativo.'
+          'Investigación: análisis de UIs existentes y definición del estilo visual del juego.',
+          'Wireframing: bocetos de baja fidelidad para validar estructura antes del diseño visual.',
+          'Diseño en Figma/XD: mockups de alta fidelidad con sistema de diseño completo.',
+          'Prototipado interactivo: simulación con animaciones para validar con el equipo.',
+          'Implementación en motor: exportación de assets y recreación en Unity o Unreal.',
+          'Testing e iteración: pruebas con jugadores reales y ajustes basados en feedback.'
         ]
       },
       {
         type: 'highlight',
-        text: '💼 Pipeline moderno: Figma para diseño → Zeplin para handoff → Unity/Unreal para implementación → Spine 2D para animaciones complejas. Este flujo es el estándar en estudios AAA y mid-size.'
+        text: '💼 Pipeline estándar en estudios AAA: Figma → Zeplin → Unity/Unreal → Spine 2D.'
       }
     ]
   }

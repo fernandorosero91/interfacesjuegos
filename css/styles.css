@@ -219,7 +219,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: var(--dark
   font-size: .95rem; color: #c0d4f0; line-height: 1.5;
   display: flex; gap: 10px; align-items: flex-start;
 }
-.expo-card ul li::before { content: '▸'; color: var(--cyan); flex-shrink: 0; }
+.expo-card ul li::before { content: ''; display: none; }
 .expo-card .highlight-box {
   background: linear-gradient(135deg, rgba(255,215,0,.08), rgba(255,165,0,.05));
   border: 1px solid rgba(255,215,0,.25); border-radius: 8px;
