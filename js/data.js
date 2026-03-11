@@ -13,6 +13,7 @@ const MODULES = [
     gameInstructions: 'MUÉVETE CON FLECHAS O WASD • RECOGE EL CRISTAL • EVITA LOS DRONES',
     gameObjective: '💎 Recoge el cristal azul',
     color: '#00f5ff',
+    darkColor: '#006688',
     member: 'Valentina',
     content: [
       {
@@ -26,7 +27,7 @@ const MODULES = [
         items: [
           'Reducen la carga cognitiva presentando solo info esencial.',
           'Generan inmersión integrada al mundo del juego.',
-          'Comunican estado: vida, munición y objetivos de vistazo.',
+          'Comunican estado: vida, munición y objetivos de un vistazo.',
           'Crean identidad visual que refuerza el estilo artístico.'
         ]
       },
@@ -47,6 +48,7 @@ const MODULES = [
     gameInstructions: 'NAVEGA EL LABERINTO • LLEGA A LA SALIDA MARCADA CON ⚔️',
     gameObjective: '⚔️ Encuentra la salida del dungeon',
     color: '#ff6600',
+    darkColor: '#994400',
     member: 'Fernando',
     content: [
       {
@@ -81,6 +83,7 @@ const MODULES = [
     gameInstructions: 'DISPARA CON ESPACIO • MUÉVETE CON FLECHAS • DESTRUYE ASTEROIDES',
     gameObjective: '🌟 Destruye todo y recoge la estrella',
     color: '#ff00ff',
+    darkColor: '#880088',
     member: 'Vanessa',
     content: [
       {
@@ -119,6 +122,7 @@ const MODULES = [
     gameInstructions: 'MUÉVETE CON FLECHAS • SALTA CON Z O ESPACIO • LLEGA AL ORBE',
     gameObjective: '🔮 Salta hasta el orbe mágico',
     color: '#00ff88',
+    darkColor: '#006633',
     member: 'Alejandro',
     content: [
       {
@@ -153,6 +157,7 @@ const MODULES = [
     gameInstructions: 'SALTA CON ESPACIO O FLECHA ARRIBA • ESQUIVA OBSTÁCULOS • RECOGE LA ENERGÍA',
     gameObjective: '⚡ Recoge el núcleo de energía',
     color: '#ffd700',
+    darkColor: '#996600',
     member: 'Juan Pablo',
     content: [
       {

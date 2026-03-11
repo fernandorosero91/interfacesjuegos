@@ -225,12 +225,14 @@ function renderMap() {
     if (isCompleted) node.classList.add('completed');
     else if (isAvailable) { node.classList.add('available'); node.classList.add('active-pulse'); }
     else node.classList.add('locked');
-    node.style.borderColor = isCompleted ? 'var(--green)' : (isAvailable ? mod.color : '#1a2a3a');
+    const nodeAccent = isCompleted ? '#007733' : (isAvailable ? mod.darkColor : '#aabbcc');
+    node.style.borderColor = nodeAccent;
+    node.style.background = 'rgba(255,255,255,0.90)';
     node.innerHTML = `
       <div class="node-icon">${mod.icon}</div>
-      <div class="node-num">MÓDULO 0${i + 1}</div>
-      <div class="node-name" style="color:${isCompleted ? 'var(--green)' : isAvailable ? mod.color : '#1a2a3a'}">${mod.scenarioName}</div>
-      <div class="node-member" style="color:${isCompleted ? 'var(--green)' : isAvailable ? mod.color : '#1a2a3a'}">${mod.member}</div>
+      <div class="node-num" style="color:#6677aa">MÓDULO 0${i + 1}</div>
+      <div class="node-name" style="color:${nodeAccent}">${mod.scenarioName}</div>
+      <div class="node-member" style="color:${nodeAccent}">${mod.member}</div>
     `;
     if (isAvailable && !isCompleted) {
       node.addEventListener('click', () => { sfxClick(); startGame(i); });
@@ -321,10 +323,10 @@ function showGameMember(mod) {
     el.id = 'game-member-badge';
     document.getElementById('s-game').appendChild(el);
   }
-  el.innerHTML = `<span class="gm-icon">${mod.icon}</span><span class="gm-name">${mod.member}</span><span class="gm-tag">${mod.modTag}</span>`;
+  el.innerHTML = `<span class="gm-icon">${mod.icon}</span><span class="gm-name" style="color:#003366">${mod.member}</span><span class="gm-tag" style="color:#667799">${mod.modTag}</span>`;
   el.style.borderColor = mod.color;
-  el.style.color = mod.color;
-  el.style.boxShadow = `0 0 20px ${mod.color}55`;
+  el.style.color = '#003366';
+  el.style.boxShadow = 'none';
 }
 
 function stopGame() {
@@ -357,29 +359,29 @@ function openExpo(modIdx) {
     mb.id = 'expo-member-badge';
     document.getElementById('expo-mod-tag').parentNode.insertBefore(mb, document.getElementById('expo-mod-tag'));
   }
-  mb.innerHTML = `🎮 <span style="color:${c};font-family:'Press Start 2P',monospace;font-size:0.65rem;">${mod.member}</span>`;
-  mb.style.cssText = `display:inline-flex;align-items:center;gap:6px;background:rgba(${rgb},.15);border:1px solid rgba(${rgb},.4);border-radius:4px;padding:3px 10px;margin-bottom:6px;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#fff;`;
+  mb.innerHTML = `🎮 <span style="color:#005588;font-family:'Press Start 2P',monospace;font-size:0.65rem;">${mod.member}</span>`;
+  mb.style.cssText = `display:inline-flex;align-items:center;gap:6px;background:rgba(${rgb},.15);border:1px solid rgba(${rgb},.4);border-radius:4px;padding:3px 10px;margin-bottom:6px;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#1a2050;`;
 
   const expoHeaderCard = document.querySelector('.expo-header-card');
   expoHeaderCard.style.borderColor = `rgba(${rgb},.3)`;
   expoHeaderCard.style.boxShadow = `0 4px 40px rgba(0,0,0,.6), 0 0 30px rgba(${rgb},.25), inset 0 1px 0 rgba(255,255,255,.05)`;
 
   const sectionTag = document.querySelector('.section-tag');
-  sectionTag.style.color = c;
+  sectionTag.style.color = '#005588';
   sectionTag.style.background = `rgba(${rgb},.1)`;
   sectionTag.style.borderColor = `rgba(${rgb},.3)`;
 
   const expoTitle = document.getElementById('expo-title');
-  expoTitle.style.textShadow = `0 0 20px rgba(${rgb},.6), 0 0 40px rgba(${rgb},.3)`;
-  expoTitle.style.color = c;
+  expoTitle.style.textShadow = 'none';
+  expoTitle.style.color = '#003366'; expoTitle.style.textShadow = 'none';
 
   const questionHighlight = document.querySelector('.question-highlight');
   questionHighlight.style.background = `linear-gradient(135deg, rgba(${rgb},.15), rgba(${rgb},.06))`;
   questionHighlight.style.borderColor = `rgba(${rgb},.3)`;
   questionHighlight.style.borderLeftColor = c;
-  questionHighlight.style.color = c;
+  questionHighlight.style.color = '#003366';
 
-  document.querySelector('.expo-bg').style.background = `radial-gradient(ellipse at 20% 50%, rgba(${rgb},.18) 0%, #020610 60%)`;
+  document.querySelector('.expo-bg').style.background = `radial-gradient(ellipse at 20% 50%, rgba(${rgb},.22) 0%, #eef2ff 60%)`;
   document.getElementById('cd-bar-fill').style.background = `linear-gradient(90deg, ${c}, #ffd700)`;
 
   const container = document.getElementById('expo-content');
@@ -392,7 +394,7 @@ function openExpo(modIdx) {
     card.style.boxShadow = `0 0 15px rgba(${rgb},.1)`;
     let html = '';
     if (block.title && block.type !== 'accordion') {
-      html += `<h3 style="color:${c}; border-bottom-color:rgba(${rgb},.2)">${block.title}</h3>`;
+      html += `<h3 style="color:#003366; border-bottom-color:rgba(${rgb},.25)">${block.title}</h3>`;
     }
     switch (block.type) {
       case 'intro':
@@ -400,20 +402,20 @@ function openExpo(modIdx) {
         break;
       case 'accordion':
         html += `<div class="accordion-wrap">
-          <button class="accordion-btn" style="border-color:rgba(${rgb},.4);color:${c};background:rgba(${rgb},.08);" onclick="toggleAccordion(this,'${rgb}','${c}')">
+          <button class="accordion-btn" style="border-color:rgba(${rgb},.5);color:#003366;background:rgba(${rgb},.08);" onclick="toggleAccordion(this,'${rgb}','${c}')"> 
             <span>${block.title}</span>
             <span class="acc-arrow">▼</span>
           </button>
           <div class="accordion-body" style="border-color:rgba(${rgb},.2);">
-            <ul>${block.items.map(it => `<li style="background:rgba(${rgb},.06);border-color:rgba(${rgb},.15)"><span style="color:${c};flex-shrink:0">▸</span>${it}</li>`).join('')}</ul>
+            <ul>${block.items.map(it => `<li style="background:rgba(${rgb},.07);border-color:rgba(${rgb},.2)"><span style="color:#005588;flex-shrink:0">▸</span>${it}</li>`).join('')}</ul>
           </div>
         </div>`;
         break;
       case 'rules2col':
-        html += `<div class="rules-grid">${block.items.map(it => `<div class="rule-chip" style="border-color:rgba(${rgb},.3);background:rgba(${rgb},.07);color:${c};"><span class="rule-dot" style="background:${c};box-shadow:0 0 6px ${c};"></span>${it}</div>`).join('')}</div>`;
+        html += `<div class="rules-grid">${block.items.map(it => `<div class="rule-chip" style="border-color:rgba(${rgb},.3);background:rgba(${rgb},.07);color:#003366;"><span class="rule-dot" style="background:${c};box-shadow:0 0 6px ${c};"></span>${it}</div>`).join('')}</div>`;
         break;
       case 'highlight':
-        html += `<div class="highlight-box" style="border-color:rgba(${rgb},.3);background:linear-gradient(135deg,rgba(${rgb},.12),rgba(${rgb},.05));color:${c};">${block.text}</div>`;
+        html += `<div class="highlight-box" style="border-color:rgba(${rgb},.3);background:linear-gradient(135deg,rgba(${rgb},.1),rgba(${rgb},.04));color:#003366;">${block.text}</div>`;
         break;
     }
     card.innerHTML = html;
@@ -515,7 +517,7 @@ function buildVictory() {
       <div class="vc-icon">${mod.icon}</div>
       <div class="vc-num">MÓDULO 0${i+1}</div>
       <div class="vc-title">${mod.scenarioName}</div>
-      <div class="vc-member" style="color:${mod.color}">${mod.member}</div>
+      <div class="vc-member" style="color:#003366">${mod.member}</div>
     `;
     container.appendChild(card);
   });

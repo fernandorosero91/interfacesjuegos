@@ -115,8 +115,8 @@ class CollectorGame {
   }
   draw(ctx) {
     const W = this.W, H = this.H;
-    ctx.fillStyle = '#0d1528'; ctx.fillRect(0, 0, W, H);
-    ctx.strokeStyle = 'rgba(0,245,255,0.04)'; ctx.lineWidth = 1;
+    ctx.fillStyle = '#dce8ff'; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(0,100,180,0.12)'; ctx.lineWidth = 1;
     for (let x = 0; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
     for (let y = 0; y < H; y += 40) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
     if (!this.won) {
@@ -125,7 +125,7 @@ class CollectorGame {
       ctx.shadowColor = this.mod.color; ctx.shadowBlur = 20 + pulse;
       ctx.fillStyle = this.mod.color;
       ctx.beginPath(); ctx.arc(this.prize.x, this.prize.y, this.prize.r + pulse * 0.3, 0, Math.PI*2); ctx.fill();
-      ctx.fillStyle = '#fff'; ctx.font = '18px serif';
+      ctx.fillStyle = '#1a2050'; ctx.font = '18px serif';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText('💎', this.prize.x, this.prize.y);
       ctx.restore();
@@ -145,7 +145,7 @@ class CollectorGame {
     ctx.shadowColor = this.mod.color; ctx.shadowBlur = 20;
     ctx.fillStyle = this.mod.color;
     ctx.beginPath(); ctx.arc(this.player.x, this.player.y, 14, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = '#fff'; ctx.font = '16px serif';
+    ctx.fillStyle = '#1a2050'; ctx.font = '16px serif';
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText('🧑', this.player.x, this.player.y);
     ctx.restore();
@@ -157,10 +157,10 @@ class CollectorGame {
       ctx.globalAlpha = 1;
     });
     if (this.won) {
-      ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(0,0,W,H);
-      ctx.fillStyle = this.mod.color; ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(220,232,255,0.90)'; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = '#003366'; ctx.textAlign = 'center';
       ctx.font = 'bold 36px Orbitron'; ctx.fillText('¡PREMIO RECOGIDO!', W/2, H/2 - 20);
-      ctx.font = '20px Rajdhani'; ctx.fillStyle = '#fff'; ctx.fillText('Cargando exposición...', W/2, H/2 + 20);
+      ctx.font = '20px Rajdhani'; ctx.fillStyle = '#1a2050'; ctx.fillText('Cargando exposición...', W/2, H/2 + 20);
     }
   }
 }
@@ -254,7 +254,7 @@ class MazeGame {
   draw(ctx) {
     const W = this.W, H = this.H;
     const cW = this.cellW, cH = this.cellH;
-    ctx.fillStyle = '#111828'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#d4e0f8'; ctx.fillRect(0, 0, W, H);
     ctx.strokeStyle = 'rgba(255,100,0,0.6)'; ctx.lineWidth = 2;
     this.maze.forEach((row, r) => {
       row.forEach((cell, c) => {
@@ -283,10 +283,10 @@ class MazeGame {
     ctx.fillText('🧙', px, py);
     ctx.restore();
     if (this.won) {
-      ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.fillRect(0,0,W,H);
-      ctx.fillStyle = '#ff6600'; ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(220,232,255,0.90)'; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = '#003366'; ctx.textAlign = 'center';
       ctx.font = 'bold 32px Orbitron'; ctx.fillText('¡DUNGEON SUPERADO!', W/2, H/2 - 20);
-      ctx.font = '20px Rajdhani'; ctx.fillStyle = '#fff'; ctx.fillText('Cargando exposición...', W/2, H/2 + 20);
+      ctx.font = '20px Rajdhani'; ctx.fillStyle = '#1a2050'; ctx.fillText('Cargando exposición...', W/2, H/2 + 20);
     }
   }
 }
@@ -372,8 +372,8 @@ class ShooterGame {
   }
   draw(ctx) {
     const W = this.W, H = this.H;
-    ctx.fillStyle = '#0a1020'; ctx.fillRect(0, 0, W, H);
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = '#c8d8f0'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#1a2050';
     for (let i = 0; i < 80; i++) {
       const sx = (i * 137.5 + this.time * 0.5) % W;
       const sy = (i * 97.3 + this.time) % H;
@@ -399,7 +399,7 @@ class ShooterGame {
     });
     this.bullets.forEach(b => {
       ctx.save(); ctx.shadowColor = '#00f5ff'; ctx.shadowBlur = 10;
-      ctx.fillStyle = '#00f5ff';
+      ctx.fillStyle = '#0077aa';
       ctx.beginPath(); ctx.arc(b.x, b.y, 4, 0, Math.PI*2); ctx.fill();
       ctx.restore();
     });
@@ -407,8 +407,8 @@ class ShooterGame {
     ctx.font = '28px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText('🚀', this.ship.x, this.ship.y);
     ctx.restore();
-    ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(8, 8, 180, 36);
-    ctx.fillStyle = '#00f5ff'; ctx.font = '12px Share Tech Mono';
+    ctx.fillStyle = 'rgba(220,232,255,0.90)'; ctx.fillRect(8, 8, 180, 36);
+    ctx.fillStyle = '#0077aa'; ctx.font = '12px Share Tech Mono';
     ctx.textAlign = 'left'; ctx.textBaseline = 'top';
     if (this.phase === 'fight') ctx.fillText(`ASTEROIDES: ${this.asteroids.length} restantes`, 16, 18);
     else ctx.fillText('¡DESTRUIDOS! Recoge la estrella ↑', 16, 18);
@@ -418,10 +418,10 @@ class ShooterGame {
     });
     ctx.globalAlpha = 1;
     if (this.won) {
-      ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.fillRect(0,0,W,H);
-      ctx.fillStyle = this.mod.color; ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(220,232,255,0.90)'; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = '#003366'; ctx.textAlign = 'center';
       ctx.font = 'bold 32px Orbitron'; ctx.fillText('¡SECTOR DESPEJADO!', W/2, H/2 - 20);
-      ctx.font = '20px Rajdhani'; ctx.fillStyle = '#fff'; ctx.fillText('Cargando exposición...', W/2, H/2 + 20);
+      ctx.font = '20px Rajdhani'; ctx.fillStyle = '#1a2050'; ctx.fillText('Cargando exposición...', W/2, H/2 + 20);
     }
   }
 }
@@ -526,7 +526,7 @@ class PlatformerGame {
   }
   draw(ctx) {
     const W = this.W, H = this.H;
-    ctx.fillStyle = '#111828'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#d4e0f8'; ctx.fillRect(0, 0, W, H);
     for (let i = 0; i < 60; i++) {
       ctx.globalAlpha = 0.2 + Math.sin(i * 7.3 + this.time * 0.02) * 0.2;
       ctx.fillStyle = '#ff00ff';
@@ -555,10 +555,10 @@ class PlatformerGame {
     ctx.fillText('🧝', this.player.x, this.player.y + this.player.h/2); ctx.restore();
     ctx.restore();
     if (this.won) {
-      ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.fillRect(0,0,W,H);
-      ctx.fillStyle = this.mod.color; ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(220,232,255,0.90)'; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = '#003366'; ctx.textAlign = 'center';
       ctx.font = 'bold 32px Orbitron'; ctx.fillText('¡ORBE ALCANZADO!', W/2, H/2 - 20);
-      ctx.font = '20px Rajdhani'; ctx.fillStyle = '#fff'; ctx.fillText('Cargando exposición...', W/2, H/2 + 20);
+      ctx.font = '20px Rajdhani'; ctx.fillStyle = '#1a2050'; ctx.fillText('Cargando exposición...', W/2, H/2 + 20);
     }
   }
 }
@@ -639,7 +639,7 @@ class RunnerGame {
   }
   draw(ctx) {
     const W = this.W, H = this.H;
-    ctx.fillStyle = '#111828'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#d4e0f8'; ctx.fillRect(0, 0, W, H);
     ctx.strokeStyle = 'rgba(255,215,0,0.04)'; ctx.lineWidth = 1;
     const offset = this.cameraX % 60;
     for (let x = -offset; x < W; x += 60) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
@@ -652,7 +652,7 @@ class RunnerGame {
     ctx.beginPath(); ctx.moveTo(0, this.GROUND); ctx.lineTo(W, this.GROUND); ctx.stroke();
     ctx.restore();
     const progress = Math.min(1, this.worldDist / this.PRIZE_WORLD);
-    ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(W * 0.1, 14, W * 0.8, 10);
+    ctx.fillStyle = 'rgba(220,232,255,0.90)'; ctx.fillRect(W * 0.1, 14, W * 0.8, 10);
     const pgrad = ctx.createLinearGradient(W*0.1, 0, W*0.9, 0);
     pgrad.addColorStop(0, '#ffd700'); pgrad.addColorStop(1, '#ff6600');
     ctx.fillStyle = pgrad; ctx.fillRect(W * 0.1, 14, W * 0.8 * progress, 10);
@@ -685,10 +685,10 @@ class RunnerGame {
     ctx.fillText('🏃', p.x + p.w/2, p.y + p.h/2);
     ctx.restore();
     if (this.won) {
-      ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.fillRect(0,0,W,H);
-      ctx.fillStyle = this.mod.color; ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(220,232,255,0.90)'; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = '#003366'; ctx.textAlign = 'center';
       ctx.font = 'bold 32px Orbitron'; ctx.fillText('¡REACTOR ACTIVADO!', W/2, H/2 - 20);
-      ctx.font = '20px Rajdhani'; ctx.fillStyle = '#fff'; ctx.fillText('Cargando exposición...', W/2, H/2 + 20);
+      ctx.font = '20px Rajdhani'; ctx.fillStyle = '#1a2050'; ctx.fillText('Cargando exposición...', W/2, H/2 + 20);
     }
   }
 }
