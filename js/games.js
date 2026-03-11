@@ -1,4 +1,57 @@
 // ============================================================
+// GAME SOUND HELPERS (Web Audio API)
+// ============================================================
+function _ac() {
+  if (!window._gameAC) window._gameAC = new (window.AudioContext || window.webkitAudioContext)();
+  return window._gameAC;
+}
+function _beep(freq, type, dur, vol=0.13, startDelay=0) {
+  try {
+    const ac = _ac();
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.connect(g); g.connect(ac.destination);
+    o.type = type; o.frequency.setValueAtTime(freq, ac.currentTime + startDelay);
+    g.gain.setValueAtTime(vol, ac.currentTime + startDelay);
+    g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + startDelay + dur);
+    o.start(ac.currentTime + startDelay);
+    o.stop(ac.currentTime + startDelay + dur + 0.02);
+  } catch(e) {}
+}
+function _noise(dur, vol=0.08) {
+  try {
+    const ac = _ac();
+    const buf = ac.createBuffer(1, ac.sampleRate * dur, ac.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
+    const src = ac.createBufferSource(), g = ac.createGain();
+    src.buffer = buf; src.connect(g); g.connect(ac.destination);
+    g.gain.setValueAtTime(vol, ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + dur);
+    src.start(); src.stop(ac.currentTime + dur + 0.02);
+  } catch(e) {}
+}
+
+// --- Shooter sounds ---
+function sfxShoot()    { _beep(880,'square',0.07,0.1); _beep(660,'square',0.05,0.07,0.04); }
+function sfxExplode()  { _noise(0.18,0.12); _beep(120,'sawtooth',0.15,0.1); }
+function sfxAllClear() { [784,1047,1319].forEach((f,i)=>_beep(f,'square',0.15,0.15,i*0.1)); }
+
+// --- Platformer / Runner sounds ---
+function sfxJump()     { _beep(330,'square',0.06,0.12); _beep(440,'square',0.1,0.1,0.05); }
+function sfxLand()     { _beep(180,'triangle',0.07,0.1); }
+function sfxRun(frame) { if(frame%14===0) _beep(200+(frame%3)*20,'square',0.04,0.05); }
+function sfxPrizePick(){ [523,659,784,1047].forEach((f,i)=>_beep(f,'square',0.12,0.18,i*0.07)); }
+
+// --- Maze sounds ---
+function sfxStep()     { _beep(180,'triangle',0.05,0.07); }
+function sfxExit()     { [392,494,659].forEach((f,i)=>_beep(f,'square',0.12,0.14,i*0.08)); }
+
+// --- Collector sounds ---
+function sfxMove(t)    { if(t%20===0) _beep(300+(t%4)*40,'sine',0.04,0.06); }
+function sfxDangerBeep(){ _beep(220,'sawtooth',0.06,0.09); }
+function sfxCollect()  { [659,784,1047,1319].forEach((f,i)=>_beep(f,'square',0.1,0.18,i*0.06)); }
+
+// ============================================================
 // GAME 1 — COLLECTOR (Cyber City)
 // ============================================================
 class CollectorGame {
@@ -10,6 +63,7 @@ class CollectorGame {
     this.drones = [];
     this.particles = [];
     this.time = 0;
+    this._lastDangerBeep = 0;
     for (let i = 0; i < 4; i++) {
       this.drones.push({
         x: 100 + Math.random() * (this.W - 200),
@@ -24,41 +78,47 @@ class CollectorGame {
   update() {
     this.time++;
     const p = this.player;
-    // AI: move straight toward prize, avoid drones
     const tx = this.prize.x, ty = this.prize.y;
     let ax = tx - p.x, ay = ty - p.y;
     const dist = Math.sqrt(ax*ax + ay*ay);
     if (dist > 1) { ax /= dist; ay /= dist; }
-    // steer away from nearest drone
+    let nearDrone = false;
     this.drones.forEach(d => {
       const ex = p.x - d.x, ey = p.y - d.y;
       const ed = Math.sqrt(ex*ex + ey*ey);
-      if (ed < 80) { ax += (ex/ed) * (80-ed)/40; ay += (ey/ed) * (80-ed)/40; }
+      if (ed < 80) {
+        ax += (ex/ed) * (80-ed)/40; ay += (ey/ed) * (80-ed)/40;
+        if (ed < 55) nearDrone = true;
+      }
     });
+    // Sonido de alerta cuando un drone está cerca
+    if (nearDrone && this.time - this._lastDangerBeep > 30) {
+      sfxDangerBeep(); this._lastDangerBeep = this.time;
+    }
+    // Sonido de movimiento del jugador
+    sfxMove(this.time);
+
     p.vx = ax * p.speed; p.vy = ay * p.speed;
     p.x = Math.max(p.w/2, Math.min(this.W - p.w/2, p.x + p.vx));
     p.y = Math.max(p.h/2, Math.min(this.H - p.h/2, p.y + p.vy));
-    // drones
     this.drones.forEach(d => {
       d.x += d.vx; d.y += d.vy;
       if (d.x < d.r || d.x > this.W - d.r) d.vx *= -1;
       if (d.y < d.r || d.y > this.H - d.r) d.vy *= -1;
     });
-    // check prize
     const dx = p.x - this.prize.x, dy = p.y - this.prize.y;
     if (Math.sqrt(dx*dx + dy*dy) < p.w/2 + this.prize.r) {
+      if (!this.won) sfxCollect();
       this.won = true;
       for (let i = 0; i < 30; i++) this.particles.push({ x: this.prize.x, y: this.prize.y, vx: (Math.random()-0.5)*6, vy: (Math.random()-0.5)*6, life: 60, color: this.mod.color });
     }
   }
   draw(ctx) {
     const W = this.W, H = this.H;
-    ctx.fillStyle = '#050810'; ctx.fillRect(0, 0, W, H);
-    // grid
+    ctx.fillStyle = '#0d1528'; ctx.fillRect(0, 0, W, H);
     ctx.strokeStyle = 'rgba(0,245,255,0.04)'; ctx.lineWidth = 1;
     for (let x = 0; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
     for (let y = 0; y < H; y += 40) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
-    // prize glow
     if (!this.won) {
       const pulse = Math.sin(this.time * 0.08) * 6;
       ctx.save();
@@ -70,7 +130,6 @@ class CollectorGame {
       ctx.fillText('💎', this.prize.x, this.prize.y);
       ctx.restore();
     }
-    // drones
     this.drones.forEach(d => {
       ctx.save();
       ctx.shadowColor = '#ff4444'; ctx.shadowBlur = 15;
@@ -82,7 +141,6 @@ class CollectorGame {
       ctx.fillText('🤖', d.x, d.y);
       ctx.restore();
     });
-    // player
     ctx.save();
     ctx.shadowColor = this.mod.color; ctx.shadowBlur = 20;
     ctx.fillStyle = this.mod.color;
@@ -91,7 +149,6 @@ class CollectorGame {
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText('🧑', this.player.x, this.player.y);
     ctx.restore();
-    // particles
     this.particles = this.particles.filter(p => p.life > 0);
     this.particles.forEach(p => {
       p.x += p.vx; p.y += p.vy; p.life--;
@@ -125,10 +182,10 @@ class MazeGame {
     this.speed = 3;
     this.moveTimer = 0;
     this.time = 0;
+    this._lastCol = 0; this._lastRow = 0;
   }
   buildMaze() {
     const C = this.COLS, R = this.ROWS;
-    // grid of cells with walls: N, E, S, W
     const cells = Array.from({length: R}, () => Array.from({length: C}, () => ({ n:true, e:true, s:true, w:true, visited: false })));
     const stack = [];
     let cur = { col: 0, row: 0 };
@@ -160,13 +217,15 @@ class MazeGame {
     this.time++;
     this.moveTimer--;
     if (this.moveTimer > 0) return;
-    // AI: BFS to find next step toward exit
     if (!this.path || this.path.length === 0) this.path = this.bfs();
     if (this.path && this.path.length > 0) {
       const next = this.path.shift();
       this.playerCell = { col: next.col, row: next.row };
       this.moveTimer = 10;
+      // Sonido de paso cuando se mueve
+      sfxStep();
       if (this.playerCell.col === this.exitCell.col && this.playerCell.row === this.exitCell.row) {
+        sfxExit();
         this.won = true;
       }
     }
@@ -195,8 +254,7 @@ class MazeGame {
   draw(ctx) {
     const W = this.W, H = this.H;
     const cW = this.cellW, cH = this.cellH;
-    ctx.fillStyle = '#060408'; ctx.fillRect(0, 0, W, H);
-    // Draw maze
+    ctx.fillStyle = '#111828'; ctx.fillRect(0, 0, W, H);
     ctx.strokeStyle = 'rgba(255,100,0,0.6)'; ctx.lineWidth = 2;
     this.maze.forEach((row, r) => {
       row.forEach((cell, c) => {
@@ -207,7 +265,6 @@ class MazeGame {
         if (cell.w) { ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y + cH); ctx.stroke(); }
       });
     });
-    // Exit
     const ex = this.exitCell.col * cW + cW / 2, ey = this.exitCell.row * cH + cH / 2;
     const pulse = Math.sin(this.time * 0.1) * 5;
     ctx.save();
@@ -216,7 +273,6 @@ class MazeGame {
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText('⚔️', ex, ey);
     ctx.restore();
-    // Player
     const px = this.playerCell.col * cW + cW / 2, py = this.playerCell.row * cH + cH / 2;
     ctx.save();
     ctx.shadowColor = '#ff6600'; ctx.shadowBlur = 15;
@@ -249,7 +305,8 @@ class ShooterGame {
     this.particles = [];
     this.shootTimer = 0;
     this.time = 0;
-    this.phase = 'fight'; // fight -> prize
+    this.phase = 'fight';
+    this._allClearPlayed = false;
     for (let i = 0; i < 6; i++) this.spawnAsteroid();
   }
   spawnAsteroid() {
@@ -266,28 +323,24 @@ class ShooterGame {
     this.shootTimer--;
     const s = this.ship;
     if (this.phase === 'fight') {
-      // AI: aim at nearest asteroid, move under it
       let target = null, minD = Infinity;
       this.asteroids.forEach(a => { const d = Math.abs(a.x - s.x); if (d < minD) { minD = d; target = a; } });
       if (target) {
         if (s.x < target.x - 4) s.x = Math.min(this.W - 20, s.x + s.speed);
         else if (s.x > target.x + 4) s.x = Math.max(20, s.x - s.speed);
       }
-      // auto-shoot
       if (this.shootTimer <= 0) {
         this.bullets.push({ x: s.x, y: s.y - 20, vy: -9 });
         this.shootTimer = 12;
+        sfxShoot(); // 🔊 Sonido de disparo
       }
     } else {
-      // AI: move toward prize
       if (s.x < this.prize.x - 4) s.x = Math.min(this.W - 20, s.x + s.speed);
       else if (s.x > this.prize.x + 4) s.x = Math.max(20, s.x - s.speed);
       s.y -= 1.5;
       if (s.y < this.prize.y + 40) s.y = this.prize.y + 40;
     }
-    // bullets
     this.bullets = this.bullets.filter(b => { b.y += b.vy; return b.y > 0; });
-    // asteroids
     this.asteroids = this.asteroids.filter(a => {
       a.x += a.vx; a.y += a.vy;
       if (a.y > this.H + 40) { this.spawnAsteroid(); return false; }
@@ -295,6 +348,7 @@ class ShooterGame {
         const dx = b.x - a.x, dy = b.y - a.y;
         if (Math.sqrt(dx*dx + dy*dy) < a.r + 5) {
           a.hp--;
+          sfxExplode(); // 🔊 Sonido de explosión
           for (let i = 0; i < 8; i++) this.particles.push({ x: a.x, y: a.y, vx:(Math.random()-0.5)*5, vy:(Math.random()-0.5)*5, life: 30, color: '#ff6600' });
           return false;
         }
@@ -305,17 +359,20 @@ class ShooterGame {
     if (this.asteroids.length === 0 && this.phase === 'fight') {
       this.phase = 'prize';
       this.prize = { x: this.W / 2, y: 80, r: 18 };
+      if (!this._allClearPlayed) { sfxAllClear(); this._allClearPlayed = true; } // 🔊 ¡Sector despejado!
     }
     if (this.prize && this.phase === 'prize') {
       const dx = s.x - this.prize.x, dy = s.y - this.prize.y;
-      if (Math.sqrt(dx*dx + dy*dy) < 30 + this.prize.r) this.won = true;
+      if (Math.sqrt(dx*dx + dy*dy) < 30 + this.prize.r) {
+        if (!this.won) sfxPrizePick();
+        this.won = true;
+      }
     }
     this.particles = this.particles.filter(p => { p.x += p.vx; p.y += p.vy; p.life--; return p.life > 0; });
   }
   draw(ctx) {
     const W = this.W, H = this.H;
-    ctx.fillStyle = '#020308'; ctx.fillRect(0, 0, W, H);
-    // stars
+    ctx.fillStyle = '#0a1020'; ctx.fillRect(0, 0, W, H);
     ctx.fillStyle = '#ffffff';
     for (let i = 0; i < 80; i++) {
       const sx = (i * 137.5 + this.time * 0.5) % W;
@@ -324,45 +381,37 @@ class ShooterGame {
       ctx.beginPath(); ctx.arc(sx, sy, 1, 0, Math.PI*2); ctx.fill();
     }
     ctx.globalAlpha = 1;
-    // prize
     if (this.prize && this.phase === 'prize') {
       const pulse = Math.sin(this.time * 0.1) * 6;
       ctx.save(); ctx.shadowColor = this.mod.color; ctx.shadowBlur = 20 + pulse;
       ctx.font = '30px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText('🌟', this.prize.x, this.prize.y); ctx.restore();
     }
-    // asteroids
     this.asteroids.forEach(a => {
       ctx.save();
       ctx.shadowColor = '#ff6600'; ctx.shadowBlur = 10;
       ctx.fillStyle = '#663300';
       ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI*2); ctx.fill();
-      ctx.strokeStyle = '#ff6600'; ctx.lineWidth = 1.5;
-      ctx.stroke();
+      ctx.strokeStyle = '#ff6600'; ctx.lineWidth = 1.5; ctx.stroke();
       ctx.font = `${a.r * 1.2}px serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText('☄️', a.x, a.y);
       ctx.restore();
     });
-    // bullets
     this.bullets.forEach(b => {
       ctx.save(); ctx.shadowColor = '#00f5ff'; ctx.shadowBlur = 10;
       ctx.fillStyle = '#00f5ff';
       ctx.beginPath(); ctx.arc(b.x, b.y, 4, 0, Math.PI*2); ctx.fill();
       ctx.restore();
     });
-    // ship
     ctx.save(); ctx.shadowColor = this.mod.color; ctx.shadowBlur = 20;
     ctx.font = '28px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText('🚀', this.ship.x, this.ship.y);
     ctx.restore();
-    // HUD
-    ctx.fillStyle = 'rgba(0,0,0,0.5)';
-    ctx.fillRect(8, 8, 180, 36);
+    ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(8, 8, 180, 36);
     ctx.fillStyle = '#00f5ff'; ctx.font = '12px Share Tech Mono';
     ctx.textAlign = 'left'; ctx.textBaseline = 'top';
     if (this.phase === 'fight') ctx.fillText(`ASTEROIDES: ${this.asteroids.length} restantes`, 16, 18);
     else ctx.fillText('¡DESTRUIDOS! Recoge la estrella ↑', 16, 18);
-    // particles
     this.particles.forEach(p => {
       ctx.globalAlpha = p.life / 30;
       ctx.fillStyle = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill();
@@ -390,10 +439,10 @@ class PlatformerGame {
     this.time = 0;
     this.platforms = this.buildPlatforms();
     this.prize = { x: this.platforms[this.platforms.length-1].x + 40, y: this.platforms[this.platforms.length-1].y - 60, r: 16 };
-    // AI state machine
-    this.targetPlatIdx = 1; // next platform to jump to
-    this.aiState = 'walk'; // 'walk' | 'jump' | 'wait'
+    this.targetPlatIdx = 1;
+    this.aiState = 'walk';
     this.jumped = false;
+    this._wasOnGround = false;
   }
   buildPlatforms() {
     const H = this.H;
@@ -412,54 +461,45 @@ class PlatformerGame {
     this.time++;
     const p = this.player;
     const plats = this.platforms;
+    const wasOnGround = p.onGround;
 
-    // Detect which platform the player is standing on
     let currentPlatIdx = -1;
     plats.forEach((pl, i) => {
       if (p.x + p.w/2 > pl.x && p.x - p.w/2 < pl.x + pl.w && Math.abs((p.y + p.h) - pl.y) < 6 && p.onGround) {
         currentPlatIdx = i;
       }
     });
-
-    // Advance target when we land on it
     if (currentPlatIdx >= this.targetPlatIdx) {
       this.targetPlatIdx = currentPlatIdx + 1;
       this.jumped = false;
       this.aiState = 'walk';
     }
-
     const target = this.targetPlatIdx < plats.length ? plats[this.targetPlatIdx] : null;
-    // Jump point: walk to 80% of current platform toward the gap
     const curPlat = currentPlatIdx >= 0 ? plats[currentPlatIdx] : plats[0];
-    const jumpX = curPlat.x + curPlat.w - 22; // near right edge
+    const jumpX = curPlat.x + curPlat.w - 22;
 
     if (this.aiState === 'walk') {
-      // Walk right toward jump point
       if (p.x < jumpX - 4) {
         p.vx = 3;
       } else {
-        p.vx = 3; // keep walking through edge
+        p.vx = 3;
         if (p.onGround && !this.jumped && target) {
           p.vy = -13;
           p.onGround = false;
           this.jumped = true;
           this.aiState = 'wait';
+          sfxJump(); // 🔊 Sonido de salto
         }
       }
     } else {
-      // 'wait': keep moving right while in the air
       p.vx = 3;
-      if (p.onGround) {
-        this.aiState = 'walk';
-      }
+      if (p.onGround) this.aiState = 'walk';
     }
 
-    // Physics
     p.vy += this.gravity;
     p.x += p.vx;
     p.y += p.vy;
     p.onGround = false;
-
     plats.forEach(pl => {
       if (p.x + p.w/2 > pl.x && p.x - p.w/2 < pl.x + pl.w &&
           p.y + p.h > pl.y && p.y + p.h - p.vy <= pl.y + 4) {
@@ -467,20 +507,26 @@ class PlatformerGame {
       }
     });
 
-    // Fell — reset to beginning
+    // 🔊 Sonido de aterrizaje
+    if (!wasOnGround && p.onGround) sfxLand();
+
+    // 🔊 Sonido de pasos mientras corre en suelo
+    if (p.onGround) sfxRun(this.time);
+
     if (p.y > this.H + 20) {
       p.x = 60; p.y = this.H - 80; p.vy = 0; p.vx = 0;
       this.targetPlatIdx = 1; this.jumped = false; this.aiState = 'walk';
     }
-
     this.cameraX = Math.max(0, Math.min(p.x - this.W * 0.35, plats[plats.length-1].x + 200 - this.W));
     const dx = p.x - this.prize.x, dy = (p.y + p.h/2) - this.prize.y;
-    if (Math.sqrt(dx*dx + dy*dy) < 50) this.won = true;
+    if (Math.sqrt(dx*dx + dy*dy) < 50) {
+      if (!this.won) sfxPrizePick();
+      this.won = true;
+    }
   }
   draw(ctx) {
     const W = this.W, H = this.H;
-    ctx.fillStyle = '#060412'; ctx.fillRect(0, 0, W, H);
-    // bg stars
+    ctx.fillStyle = '#111828'; ctx.fillRect(0, 0, W, H);
     for (let i = 0; i < 60; i++) {
       ctx.globalAlpha = 0.2 + Math.sin(i * 7.3 + this.time * 0.02) * 0.2;
       ctx.fillStyle = '#ff00ff';
@@ -488,7 +534,6 @@ class PlatformerGame {
     }
     ctx.globalAlpha = 1;
     ctx.save(); ctx.translate(-this.cameraX, 0);
-    // platforms
     this.platforms.forEach((pl, i) => {
       ctx.save();
       ctx.shadowColor = this.mod.color; ctx.shadowBlur = 10;
@@ -499,12 +544,10 @@ class PlatformerGame {
       ctx.fillRect(pl.x, pl.y, pl.w, pl.h);
       ctx.restore();
     });
-    // prize
     const pulse = Math.sin(this.time * 0.1) * 5;
     ctx.save(); ctx.shadowColor = this.mod.color; ctx.shadowBlur = 20 + pulse;
     ctx.font = '28px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText('🔮', this.prize.x, this.prize.y); ctx.restore();
-    // player
     ctx.save(); ctx.shadowColor = this.mod.color; ctx.shadowBlur = 20;
     ctx.fillStyle = this.mod.color;
     ctx.beginPath(); ctx.arc(this.player.x, this.player.y + this.player.h/2, 14, 0, Math.PI*2); ctx.fill();
@@ -529,79 +572,77 @@ class RunnerGame {
     this.W = canvas.width; this.H = canvas.height;
     this.GROUND = this.H - 70;
     this.player = { x: 100, y: this.GROUND - 30, w: 30, h: 30, vy: 0, onGround: true };
-    this.obstacles = [];   // each: { worldX, w, h }
-    this.prize = null;     // { worldX }
+    this.obstacles = [];
+    this.prize = null;
     this.cameraX = 0;
     this.speed = 3.5;
     this.spawnTimer = 80;
-    this.worldDist = 0;    // how far camera has scrolled
+    this.worldDist = 0;
     this.PRIZE_WORLD = 1800;
     this.time = 0;
+    this._wasOnGround = true;
   }
   update() {
     this.time++;
     const p = this.player;
+    const wasOnGround = p.onGround;
 
-    // Camera always scrolls right
     this.cameraX += this.speed;
     this.worldDist = this.cameraX;
     this.speed = Math.min(6, 3.5 + this.worldDist / 1200);
 
-    // Spawn obstacles in world space ahead of camera
     this.spawnTimer--;
     if (this.spawnTimer <= 0 && this.worldDist < this.PRIZE_WORLD - 200) {
       const wx = this.cameraX + this.W + 60;
       this.obstacles.push({ worldX: wx, w: 24, h: 38 + Math.random() * 24 });
       this.spawnTimer = 55 + Math.random() * 45;
     }
-
-    // Spawn prize when far enough
     if (!this.prize && this.worldDist >= this.PRIZE_WORLD - 300) {
       this.prize = { worldX: this.cameraX + this.W + 100 };
     }
 
-    // AI: detect obstacle on screen within jump range
     const pScreenX = p.x;
     const danger = this.obstacles.find(o => {
       const sx = o.worldX - this.cameraX;
       return sx - (pScreenX + p.w) > 0 && sx - (pScreenX + p.w) < 130;
     });
-    if (danger && p.onGround) { p.vy = -14; p.onGround = false; }
+    if (danger && p.onGround) {
+      p.vy = -14; p.onGround = false;
+      sfxJump(); // 🔊 Salto del corredor
+    }
 
-    // Also jump for prize if needed (prize is at ground level - just run into it)
-    // Physics
     p.vy += 0.65;
     p.y += p.vy;
     if (p.y >= this.GROUND - p.h) { p.y = this.GROUND - p.h; p.vy = 0; p.onGround = true; }
 
-    // Remove off-screen obstacles
-    this.obstacles = this.obstacles.filter(o => o.worldX - this.cameraX > -80);
+    // 🔊 Aterrizaje del corredor
+    if (!wasOnGround && p.onGround) sfxLand();
 
-    // Collision with obstacles — just jump over (push back up if hit)
+    // 🔊 Pasos del corredor (cada cierto frame)
+    if (p.onGround) sfxRun(this.time);
+
+    this.obstacles = this.obstacles.filter(o => o.worldX - this.cameraX > -80);
     this.obstacles.forEach(o => {
       const sx = o.worldX - this.cameraX;
       if (pScreenX + p.w * 0.7 > sx && pScreenX + p.w * 0.1 < sx + o.w &&
           p.y + p.h > this.GROUND - o.h) {
-        if (p.onGround || p.vy >= 0) { p.vy = -14; p.onGround = false; }
+        if (p.onGround || p.vy >= 0) { p.vy = -14; p.onGround = false; sfxJump(); }
       }
     });
-
-    // Check prize collection
     if (this.prize) {
       const sx = this.prize.worldX - this.cameraX;
-      if (Math.abs(sx - pScreenX) < 60) this.won = true;
+      if (Math.abs(sx - pScreenX) < 60) {
+        if (!this.won) sfxPrizePick();
+        this.won = true;
+      }
     }
   }
   draw(ctx) {
     const W = this.W, H = this.H;
-    ctx.fillStyle = '#080410'; ctx.fillRect(0, 0, W, H);
-
-    // Scrolling bg lines
+    ctx.fillStyle = '#111828'; ctx.fillRect(0, 0, W, H);
     ctx.strokeStyle = 'rgba(255,215,0,0.04)'; ctx.lineWidth = 1;
     const offset = this.cameraX % 60;
     for (let x = -offset; x < W; x += 60) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-
-    // Ground
     ctx.save();
     ctx.shadowColor = '#ffd700'; ctx.shadowBlur = 8;
     const ggrad = ctx.createLinearGradient(0, this.GROUND, 0, H);
@@ -610,8 +651,6 @@ class RunnerGame {
     ctx.strokeStyle = '#ffd700'; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.moveTo(0, this.GROUND); ctx.lineTo(W, this.GROUND); ctx.stroke();
     ctx.restore();
-
-    // Progress bar
     const progress = Math.min(1, this.worldDist / this.PRIZE_WORLD);
     ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(W * 0.1, 14, W * 0.8, 10);
     const pgrad = ctx.createLinearGradient(W*0.1, 0, W*0.9, 0);
@@ -619,8 +658,6 @@ class RunnerGame {
     ctx.fillStyle = pgrad; ctx.fillRect(W * 0.1, 14, W * 0.8 * progress, 10);
     ctx.fillStyle = '#ffd700'; ctx.font = '10px Share Tech Mono'; ctx.textAlign = 'center';
     ctx.fillText(`${Math.round(progress * 100)}% — LLEGA AL REACTOR`, W/2, 12);
-
-    // Obstacles
     this.obstacles.forEach(o => {
       const sx = o.worldX - this.cameraX;
       ctx.save(); ctx.shadowColor = '#ff4444'; ctx.shadowBlur = 10;
@@ -630,8 +667,6 @@ class RunnerGame {
       ctx.fillText('⚡', sx + o.w/2, this.GROUND - o.h/2);
       ctx.restore();
     });
-
-    // Prize
     if (this.prize) {
       const sx = this.prize.worldX - this.cameraX;
       const pulse = Math.sin(this.time * 0.12) * 6;
@@ -642,8 +677,6 @@ class RunnerGame {
       ctx.fillStyle = this.mod.color; ctx.font = '11px Share Tech Mono'; ctx.textAlign = 'center';
       ctx.fillText('¡RECOGE LA ENERGÍA!', sx, this.GROUND - 70);
     }
-
-    // Player
     const p = this.player;
     ctx.save(); ctx.shadowColor = this.mod.color; ctx.shadowBlur = 20;
     ctx.fillStyle = this.mod.color;
@@ -651,7 +684,6 @@ class RunnerGame {
     ctx.font = '22px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillText('🏃', p.x + p.w/2, p.y + p.h/2);
     ctx.restore();
-
     if (this.won) {
       ctx.fillStyle = 'rgba(0,0,0,0.6)'; ctx.fillRect(0,0,W,H);
       ctx.fillStyle = this.mod.color; ctx.textAlign = 'center';
