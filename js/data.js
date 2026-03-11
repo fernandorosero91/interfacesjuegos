@@ -26,7 +26,7 @@ const MODULES = [
         items: [
           'Reducen la carga cognitiva presentando solo info esencial.',
           'Generan inmersión integrada al mundo del juego.',
-          'Comunican estado: vida, munición y objetivos de un vistazo.',
+          'Comunican estado: vida, munición y objetivos de vistazo.',
           'Crean identidad visual que refuerza el estilo artístico.'
         ]
       },
